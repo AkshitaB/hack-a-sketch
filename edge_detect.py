@@ -29,9 +29,9 @@ class Stroker(object):
 
     def detect_edges(self, path):
         img = cv2.imread(path)
-        img = cv2.resize(im, (700, 700))
+        img = cv2.resize(img, (700, 700))
 
-        imCopy = np.zeros(im.shape)
+        imCopy = np.zeros(img.shape)
         imgray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         ret, thresh = cv2.threshold(imgray, 127, 255, 0)
         image, contours, hierarchy =  cv2.findContours(thresh, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
@@ -44,6 +44,7 @@ class Stroker(object):
             
         #contours = new_contours
 
-        contours = np.array(sorted(contours, key=len, reverse=True))
+        contours = sorted(contours, key=len, reverse=True)
+        contours = [contour.tolist() for contour in contours]
         return contours
 

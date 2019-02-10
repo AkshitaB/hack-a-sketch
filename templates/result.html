@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<script language="JavaScript" type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<html>
+<body>
+
+<h2>The Button Element</h2>
+<button type="button" onclick="httpGet()">Click Me!</button>
+
+</body>
+</html>
+
+<script type="text/javascript">
+    var path = "{{result}}";
+
+    function httpGet() {
+        console.log(path);
+        var request = "/getpythondata?path=" + path; 
+        $.get(request, function(data) {
+                console.log($.parseJSON(data))
+        });
+    }
+</script>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form method=post enctype=multipart/form-data>
+       <p><input type=file name=file>
+           <input type=submit value=Upload>
+   </form>
+ 
+</body>
+</html>
+
+<script type="text/javascript">
+    function httpGet()
+    {
+        /*var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", '/get_contours', false ); // false for synchronous request
+        xmlHttp.send( null );
+        console.log(xmlHttp.responseText);
+        return xmlHttp.responseText;
+        */
+        $.get("/getpythondata", function(data) {
+            console.log($.parseJSON(data))
+        });
+    }
+</script>
