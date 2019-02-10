@@ -8,11 +8,12 @@
 
 <body bgcolor="#E6E6FA">
 
-<h1 style="text-align: center; color: #5B2C6F">Hack-A-Sketch!</h1>
+<h1 style="text-align: center; color: #5B2C6F"><a href="/">Hack-A-Sketch!</a></h1>
 
 <div>
-<button class='button' type="button" onclick="httpGet()">Begin drawing!</button>
-<button class='button' type="button" id = "next" onclick="changePath()">Next</button>
+    <button class='et_pb_button button' type="button" onclick="httpGet()">Begin Drawing!</button>
+    <button class='et_pb_button button' type="button" id = "next" onclick="changePath()">Next</button>
+    <button class='et_pb_button button' type="button" id = "home" onclick="window.location = '/';">Draw Something New!</button>
 
 </div>
 
@@ -26,10 +27,44 @@
 <!--svg id="Layer_1" x="0px" y="0px" width="100%" height="100%">
 </svg-->
 
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Congratulations! You have finished your drawing!</p>
+  </div>
+
+</div>
+
 </body>
 </html>
 
 <script type="text/javascript">
+
+    
+
+    var modal = document.getElementById('myModal');
+
+    function alertDone() {
+        modal.style.display = "block";
+    }
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
     var path = "{{result}}";
 
     var contours;
@@ -61,7 +96,8 @@
         addPath('Layer_1', currContour);
         currIdx = currIdx + 1;
         if (currIdx > contours.length) {
-            alert('Congratulations! You have finished your drawing!')
+            //alert('Congratulations! You have finished your drawing!')
+            alertDone();
         }
     }
 
@@ -140,6 +176,11 @@
   transform: translateY(4px);
 }
 
+.et_pb_button {
+    display: inline-block;
+    margin: 5px; /* space between buttons */
+}
+
 .container1 {
   float: left;
 }
@@ -148,5 +189,45 @@
   float: right;
 }
 
+body {font-family: Arial, Helvetica, sans-serif;}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
 
 </style>
