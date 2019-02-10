@@ -1,4 +1,4 @@
-# hack-a-sketch
+# Hack-A-Sketch
 Hackher413 hackathon project (2019)
 
 # Introduction
