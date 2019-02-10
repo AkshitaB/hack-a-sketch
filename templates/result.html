@@ -1,10 +1,21 @@
 <!DOCTYPE html>
 <script language="JavaScript" type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="http://d3js.org/d3.v3.js"></script>
 <html>
+<head>
+  <title>Hack-A-Sketch!</title>
+</head>
+
 <body>
 
-<h2>The Button Element</h2>
-<button type="button" onclick="httpGet()">Click Me!</button>
+<button type="button" onclick="httpGet()">Begin drawing!</button>
+<button type="button" id = "next" onclick="changePath()">Next</button>
+
+
+<svg version="1.1" id="Layer_1" 
+xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="700px" height="700px" viewBox="0 0 700 700" enable-background="new 0 0 700 700" xml:space="preserve">
+</svg>
+
 
 </body>
 </html>
@@ -12,11 +23,71 @@
 <script type="text/javascript">
     var path = "{{result}}";
 
+    var contours;
+    var currIdx = 0;
+
     function httpGet() {
         console.log(path);
+        //var contours;
         var request = "/getpythondata?path=" + path; 
         $.get(request, function(data) {
-                console.log($.parseJSON(data))
+                contours = $.parseJSON(data);
+                contours = contours['contours'];
+                console.log(contours);
         });
+        //setTimeout(function(){ console.log("hh") }, 6000);
+        //console.log(contours);
+        setTimeout(add_stroke, 3000);
+        //add_stroke();
+    }
+
+    function add_stroke() {
+        console.log(contours);
+        var currContour = contours[currIdx];
+        console.log(currContour);
+        addPath(currContour);
+        currIdx = currIdx + 1;
+    }
+
+    function changePath() {
+        console.log("next was done")
+          $('.path').toggleClass('path stablepathconsoleconsole');
+          console.log("Class changed");
+          add_stroke();
+        }
+
+    function addPath(d) {
+      var newpath = d3.select('svg').append('path')
+                    .attr('class', 'path')
+                    .attr('fill',"#FFFFFF")
+                    .attr('stroke',"#000000")
+                    .attr('stroke-width',"3")
+                    .attr('stroke-miterlimit',"10")
+                    .attr('pathLength',"100")
+                    .attr('fill-opacity', '0')
+                    .attr('d', d);
     }
 </script>
+
+<style type="text/css">
+    .stablepath {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: dash 0.25s linear forwards;
+}
+
+
+.path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: dash 7s linear infinite;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+
+</style>

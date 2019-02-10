@@ -17,6 +17,8 @@ def split_item(item, thresh):
                 end = length
             items.append(item[start:end])
             start = start + thresh
+    else:
+        items = [item]
     return items
 
 class Stroker(object):
@@ -38,13 +40,27 @@ class Stroker(object):
 
         contours = [cv2.approxPolyDP(cnt, 3, True) for cnt in contours]
 
-        new_contours = []
-        #for cont in contours:
-        #    new_contours = new_contours + split_item(cont, 10)
-            
-        #contours = new_contours
+        
 
         contours = sorted(contours, key=len, reverse=True)
-        contours = [contour.tolist() for contour in contours]
-        return contours
+        #'''
+        new_contours = []
+        for cont in contours:
+            new_contours = new_contours + split_item(cont, 20)
+            
+        contours = new_contours
+        #'''
 
+        contours = [contour.tolist() for contour in contours]
+        
+        contour_strings = []
+        for contour in contours:
+            st = 'm'
+            for idx, x in enumerate(contour):
+                if idx == 1:
+                    st += ' L'
+                st += ' {},{}'.format(x[0][0], x[0][1])
+            contour_strings.append(st)
+        return contour_strings
+        
+        #return contours
