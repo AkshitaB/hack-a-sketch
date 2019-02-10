@@ -3,11 +3,13 @@
 <head>
   <title>Hack-A-Sketch!</title>
 </head>
-<body>
+<body bgcolor="#E6E6FA">
 
-<form method=post enctype=multipart/form-data>
-       <p><input type=file name=file>
-           <input type=submit value=Upload>
+<h1 style="text-align: center; color: #5B2C6F">Hack-A-Sketch!</h1>
+
+<form style="position:absolute; top:50%; right:0;left:0; text-align: center;" method=post enctype=multipart/form-data>
+       <p><input class='button' type=file name=file>
+           <input class='button' type=submit value=Upload>
    </form>
  
 </body>
@@ -27,3 +29,26 @@
         });
     }
 </script>
+
+<style type="text/css">
+    .button {
+  padding: 15px 25px;
+  font-size: 24px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #8E44AD;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+.button:hover {background-color: #5B2C6F}
+
+.button:active {
+  background-color: #5B2C6F;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+</style>

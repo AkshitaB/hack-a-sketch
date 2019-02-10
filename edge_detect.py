@@ -7,6 +7,8 @@ import numpy as np
 def split_item(item, thresh):
     items = []
     length = len(item)
+    if length == 1:
+        return items
     if length > thresh:
         num_new_items = math.ceil(length/thresh)
         print(num_new_items)

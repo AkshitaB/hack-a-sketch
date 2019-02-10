@@ -6,16 +6,25 @@
   <title>Hack-A-Sketch!</title>
 </head>
 
-<body>
+<body bgcolor="#E6E6FA">
 
-<button type="button" onclick="httpGet()">Begin drawing!</button>
-<button type="button" id = "next" onclick="changePath()">Next</button>
+<h1 style="text-align: center; color: #5B2C6F">Hack-A-Sketch!</h1>
 
+<div>
+<button class='button' type="button" onclick="httpGet()">Begin drawing!</button>
+<button class='button' type="button" id = "next" onclick="changePath()">Next</button>
 
-<svg version="1.1" id="Layer_1" 
-xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="700px" height="700px" viewBox="0 0 700 700" enable-background="new 0 0 700 700" xml:space="preserve">
+</div>
+
+<div>
+<svg class='container1' id="Layer_1" x="0px" y="0px" width="50%" height="100%" viewBox="0 0 700 700">
 </svg>
+<svg class='container2' id="Layer_2" x="0px" y="0px" width="50%" height="100%" viewBox="0 0 700 700">
+</svg>
+</div>
 
+<!--svg id="Layer_1" x="0px" y="0px" width="100%" height="100%">
+</svg-->
 
 </body>
 </html>
@@ -34,6 +43,10 @@ xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x=
                 contours = $.parseJSON(data);
                 contours = contours['contours'];
                 console.log(contours);
+                var i;
+                for (i = 0; i < contours.length; i++) { 
+                  addPathRight('Layer_2',contours[i]);
+                }
         });
         //setTimeout(function(){ console.log("hh") }, 6000);
         //console.log(contours);
@@ -45,20 +58,35 @@ xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x=
         console.log(contours);
         var currContour = contours[currIdx];
         console.log(currContour);
-        addPath(currContour);
+        addPath('Layer_1', currContour);
         currIdx = currIdx + 1;
+        if (currIdx > contours.length) {
+            alert('Congratulations! You have finished your drawing!')
+        }
     }
 
     function changePath() {
         console.log("next was done")
-          $('.path').toggleClass('path stablepathconsoleconsole');
+          $('.path').toggleClass('path stablepath');
           console.log("Class changed");
           add_stroke();
         }
 
-    function addPath(d) {
-      var newpath = d3.select('svg').append('path')
+    function addPath(id, d) {
+      var newpath = d3.select('#'+id).append('path')
                     .attr('class', 'path')
+                    .attr('fill',"#FFFFFF")
+                    .attr('stroke',"#000000")
+                    .attr('stroke-width',"3")
+                    .attr('stroke-miterlimit',"10")
+                    .attr('pathLength',"100")
+                    .attr('fill-opacity', '0')
+                    .attr('d', d);
+    }
+
+    function addPathRight(id, d) {
+      var newpath = d3.select('#'+id).append('path')
+                    .attr('class', 'stablepath')
                     .attr('fill',"#FFFFFF")
                     .attr('stroke',"#000000")
                     .attr('stroke-width',"3")
@@ -81,12 +109,43 @@ xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x=
   stroke-dasharray: 1000;
   stroke-dashoffset: 1000;
   animation: dash 7s linear infinite;
+  stroke: red;
 }
 
 @keyframes dash {
   to {
     stroke-dashoffset: 0;
   }
+}
+
+
+.button {
+  padding: 15px 25px;
+  font-size: 24px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #8E44AD;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+.button:hover {background-color: #5B2C6F}
+
+.button:active {
+  background-color: #5B2C6F;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.container1 {
+  float: left;
+}
+
+.container2 {
+  float: right;
 }
 
 
