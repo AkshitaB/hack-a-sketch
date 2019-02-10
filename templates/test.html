@@ -1,0 +1,103 @@
+<html>
+<meta charset="utf-8">
+<script src="http://d3js.org/d3.v3.js"></script>
+<script language="JavaScript" type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<head>
+  <title>Hack A Sketch</title>
+</head>
+
+<h1>
+Hack A Sketch!
+</h1>
+
+<style>
+  h1 {color: black; text-align: center}
+</style>
+
+<body>
+<p1> Welcome to Hack a Sketch!  </p1>
+<label for="picture">Upload an image:</label>
+<input type="file">
+
+<p1>
+  <button type = "button">
+  Draw this image!
+  </button>
+</p1>
+
+
+<svg version="1.1" id="Layer_1" 
+xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="700px" height="700px" viewBox="0 0 700 700" enable-background="new 0 0 700 700" xml:space="preserve">
+<path class="path" id ="path1" fill="#FFFFFF" stroke="#000000" stroke-width="3" stroke-miterlimit="10" d= "m 397,4 L 334,9 304,19 283,32 264,60 244,71 255,67 257,70 224,92 199,118 197,110 180,138 196,123 179,184 173,173 176,192 192,214 183,198 184,189 227,238 241,243 238,236 278,254 264,245 260,237 293,256 358,256 343,262 361,262 350,267 338,263 299,263 308,294 295,287 291,276 295,263 287,262 298,299 282,289 289,302 279,309 288,308 254,351 251,337 242,360 251,352 261,394 257,397 249,392 262,406 262,398 298,427 312,432 315,428 305,424 305,414 295,410 288,399 309,407 314,424 321,413 322,440 310,489 280,574 300,586 273,578 251,579 288,597 226,580 155,575 100,579 64,587 30,605 14,629 14,654 25,667 25,656 34,640 58,623 69,622 45,637 34,654 34,667 46,680 69,688 104,686 96,665 104,650 117,640 105,657 105,677 124,691 152,694 185,682 200,652 203,662 216,670 243,673 261,667 273,653 367,642 409,629 413,618 404,606 361,585 357,578 367,463 377,421 380,433 393,422 390,432 380,438 382,444 449,445 498,440 548,428 582,413 604,397 621,377 626,347 618,328 564,323 534,346 502,354 433,337 385,314 369,314 361,305 378,313 382,312 378,305 419,326 469,342 516,348 552,325 596,274 599,279 624,282 626,263 621,251 610,241 585,234 559,236 541,243 505,291 481,303 425,295 404,283 385,279 373,269 372,259 377,251 403,240 425,240 469,250 483,244 477,254 502,255 524,250 536,239 522,244 528,237 521,237 528,228 532,232 545,224 544,233 560,220 557,231 574,208 566,213 571,195 563,207 560,201 564,186 557,201 557,193 537,195 553,190 561,181 561,168 554,159 543,155 529,158 521,179 503,196 488,204 463,208 457,217 440,221 465,236 500,228 521,213 526,204 524,187 534,189 531,182 535,182 539,189 530,192 531,207 521,221 495,236 474,241 459,239 437,222 404,233 333,237 303,232 276,221 258,202 259,188 272,175 266,169 275,164 278,166 271,171 282,171 265,191 266,203 297,224 338,232 370,232 431,221 408,217 400,211 401,206 363,208 323,194 302,178 292,164 286,143 275,137 250,137 232,149 233,163 253,173 244,177 254,180 241,179 241,173 226,161 221,168 217,164 223,147 225,152 239,136 257,131 285,136 290,103 305,78 294,73 283,81 281,76 307,43 359,12", pathLength="100"/>
+
+</svg>
+
+<input type="button" id = "next" value="Next" onclick="changePath()"/>
+</body>
+</html>
+
+<script type="text/javascript">
+	$("input").change(function(e) {
+
+    for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
+        
+        var file = e.originalEvent.srcElement.files[i];
+        
+        var img = document.createElement("img");
+        var reader = new FileReader();
+        reader.onloadend = function() {
+             img.src = reader.result;
+        }
+        reader.readAsDataURL(file);
+        $("input").after(img);
+    }
+});
+/*
+$('#next').click(function()
+{
+  console.log("next was done")
+  $('.path').toggleClass('path stablepath');
+  console.log("Class changed");
+});*/
+
+function changePath() {
+console.log("next was done")
+  $('.path').toggleClass('path stablepath');
+  console.log("Class changed");
+  addPath();
+}
+
+function addPath() {
+  var newpath = d3.select('svg').append('path')
+  							.attr('class', 'path')
+                .attr('fill',"#FFFFFF")
+                .attr('stroke',"#000000")
+                .attr('stroke-width',"3")
+                .attr('stroke-miterlimit',"10")
+                .attr('pathLength',"100")
+                .attr('d', 'm 0,0 L 700,700');
+}
+</script>
+
+<style type="text/css">
+	.stablepath {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: dash 0.25s linear forwards;
+}
+
+
+.path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: dash 5s linear infinite; 
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+
+</style>
